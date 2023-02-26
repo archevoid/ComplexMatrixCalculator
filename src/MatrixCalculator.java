@@ -1,3 +1,7 @@
+/*
+ * Java 17 이상부터 사용 가능
+ */
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,27 +11,27 @@ public class MatrixCalculator {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("행렬 연산\n");
-		
+
 		boolean run = true;
-		
+
 		System.out.println("----- 초기 행렬 입력 -----");
 		MatrixComplex mat1 = new MatrixComplex();
 		mat1.nextMatrix();
-		
+
 		while (run) {
-			
+
 			System.out.println("------------------------------------------------------------------------------------------------------------------------");
 			System.out.println("1. 더하기 | 2. 빼기 | 3. 곱하기 | 4. 기본 행 연산 | 5. 전치행렬 | 6. 상삼각행렬 | 7. 역행렬 출력 | 8. 행렬식 | 9. 출력 | 0. 종료");
 			System.out.println("\n숫자 뒤에 +를 입력하면 연산 후 현재 행렬이 변경됩니다.");
 			System.out.println("------------------------------------------------------------------------------------------------------------------------");
 			System.out.print(">>> ");
-			
+
 			String numS = scanner.nextLine();
 			boolean substitution = false;
-			
+
 			Pattern pattern = Pattern.compile("\\s*[1-7]\\s*\\+\\s*");
 			Matcher matcher = pattern.matcher(numS);
-			
+
 			if (matcher.matches()) {
 				substitution = true;
 			}
@@ -40,7 +44,7 @@ public class MatrixCalculator {
 			catch (Exception e) {
 				continue;
 			}
-			
+
 			switch (num) {
 				case 0 -> {
 					run = false;
@@ -66,7 +70,7 @@ public class MatrixCalculator {
 					}
 				}
 				case 3 -> {
-					MatrixComplex mat2 = new MatrixComplex(mat1.c);
+					MatrixComplex mat2 = new MatrixComplex(mat1.getCol());
 					mat2.nextMatrix();
 					mat2 = mat1.product(mat2);
 					System.out.println("------------------------------------------------------------------------------------------------------------------------\n");
@@ -83,13 +87,13 @@ public class MatrixCalculator {
 						System.out.println("\n숫자 뒤에 +를 입력하면 연산 후 현재 행렬이 변경됩니다. (전 단계에서 입력시 불필요)");
 						System.out.println("------------------------------------------------------------------------------------------------------------------------");
 						System.out.print(" >>> ");
-						
+
 						String num6 = scanner.nextLine();
 						boolean substitution6 = false;
-						
+
 						Pattern pattern6 = Pattern.compile("\\s*[1-3]\\s*\\+\\s*");
 						Matcher matcher6 = pattern6.matcher(num6);
-						
+
 						if (matcher6.matches()) {
 							substitution6 = true;
 						}
@@ -101,7 +105,7 @@ public class MatrixCalculator {
 						catch (Exception e) {
 							continue;
 						}
-						
+
 						switch (numR) {
 							case 0 -> {
 								runR = false;
@@ -126,7 +130,7 @@ public class MatrixCalculator {
 								int r1 = scanner.nextInt();
 								scanner.nextLine(); // nextInt() 후 버퍼에서 개행문자 지우기
 								System.out.printf("곱할 값 > ");
-								
+
 								if (substitution6 || substitution) {
 									mat1 = mat1.multiply(r1, new ComplexNumber(scanner.nextLine()));
 									mat1.print();
@@ -143,7 +147,7 @@ public class MatrixCalculator {
 								int r2 = scanner.nextInt();
 								scanner.nextLine(); // nextInt() 후 버퍼에서 개행문자 지우기
 								System.out.printf("곱할 값 > ");
-								
+
 								if (substitution6 || substitution) {
 									mat1 = mat1.addRow(r1, r2, new ComplexNumber(scanner.nextLine()));;
 									mat1.print();
@@ -175,7 +179,7 @@ public class MatrixCalculator {
 					}
 				}
 				case 7 -> {
-					MatrixComplex inverseMat = new MatrixComplex(mat1.c, mat1.r);
+					MatrixComplex inverseMat = new MatrixComplex(mat1.getCol(), mat1.getRow());
 					inverseMat = mat1.getInverseMat();
 					inverseMat.print();
 					if (substitution) {
