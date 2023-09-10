@@ -1,2 +1,2 @@
 # MatrixCalculator
-This java program is calculator for matrix of which elements are complex number.
+This java program is a calculator for a matrix of which elements are complex number.
